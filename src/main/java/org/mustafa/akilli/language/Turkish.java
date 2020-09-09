@@ -3,9 +3,15 @@ package org.mustafa.akilli.language;
 import java.math.BigDecimal;
 
 public class Turkish implements Language{
+
     @Override
-    public String getSentSuccessfullyString() {
-        return "Başarıyla Gönderildi";
+    public String getSmsSentSuccessfullyString() {
+        return "Sms başarıyla gönderildi";
+    }
+
+    @Override
+    public String getMailSentSuccessfullyString() {
+        return "Mail başarıyla gönderildi";
     }
 
     @Override

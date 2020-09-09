@@ -1,5 +1,7 @@
 package org.mustafa.akilli.pricing;
 
+import org.mustafa.akilli.exceptions.CompanyOnTheBlacklistException;
+import org.mustafa.akilli.language.Language;
 import org.mustafa.akilli.pricing.blacklist.BlackList;
 import org.mustafa.akilli.pricing.blacklist.CompanyBlackList;
 import org.mustafa.akilli.pricing.debt.Debt;
@@ -14,18 +16,24 @@ public abstract class PricingAbstract implements Pricing{
     protected int usedQuotaAmount;
     protected int currentQuotaLimit;
     protected int initialQuotaLimit;
-    private BlackList companyBlackList;
-    private Debt debtHistory = new DebtHistory();
+    protected String companyName;
+    protected BlackList companyBlackList;
+    protected Debt debtHistory = new DebtHistory();
+    protected Language language;
 
-    public PricingAbstract(String companyName, BigDecimal initialMonthlyFee, int initialQuotaLimit) {
+    public PricingAbstract(String companyName, BigDecimal initialMonthlyFee, int initialQuotaLimit, Language language) {
+        this.language = language;
+        this.companyName = companyName;
         this.initialMonthlyFee = initialMonthlyFee;
+        setcurrentMonthlyFeeToDefaultValue();
         this.initialQuotaLimit = initialQuotaLimit;
-        this.companyBlackList = new CompanyBlackList(companyName);
+        this.currentQuotaLimit = initialQuotaLimit;
+        this.companyBlackList = CompanyBlackList.getInstance();
     }
 
     @Override
     public boolean isTheQuotaFull() {
-        return currentQuotaLimit > usedQuotaAmount;
+        return currentQuotaLimit <= usedQuotaAmount;
     }
 
     @Override
@@ -37,7 +45,7 @@ public abstract class PricingAbstract implements Pricing{
     public void dontPayCurrentMonthlyFee() {
         debtHistory.addNewDebt(currentMonthlyFee);
         if(companyBlackList.checkingWhetherTheElementShouldBeBlacklisted(debtHistory.getHowManyMonthsTheCompanyHasNotPaidItsDebt())){
-            companyBlackList.addToBlackList();
+            companyBlackList.addToBlackList(this.companyName);
         }
         setcurrentMonthlyFeeToDefaultValue();
     }
@@ -49,8 +57,33 @@ public abstract class PricingAbstract implements Pricing{
     @Override
     public void payTotalDebt() {
         debtHistory.clearAllDebt();
-        if(companyBlackList.isTheElementBlacklisted()){
-            companyBlackList.removeFromBlackList();
+        if(companyBlackList.isTheElementBlacklisted(this.companyName)){
+            companyBlackList.removeFromBlackList(this.companyName);
         }
+    }
+
+    @Override
+    public void increaseTheUsedQuotaBy1() {
+        this.usedQuotaAmount += 1;
+    }
+
+    @Override
+    public int getUsedQuotaAmount() {
+        return usedQuotaAmount;
+    }
+
+    @Override
+    public BigDecimal getCurrentMonthlyFee() {
+        return currentMonthlyFee;
+    }
+
+    @Override
+    public Debt getDebtHistory() {
+        return this.debtHistory;
+    }
+
+    @Override
+    public String getCompanyName() {
+        return this.companyName;
     }
 }

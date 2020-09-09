@@ -13,9 +13,9 @@ public class CorporateUser extends UserAbstract{
 
     public CorporateUser(String email, String phone, String companyName, ArrayList<Channel> channels, Language language) {
         super(email, phone);
+        this.language = language;
         this.companyName = companyName;
         this.channels = channels;
-        this.language = language;
         checkDublicateChannel();
     }
 
@@ -27,7 +27,7 @@ public class CorporateUser extends UserAbstract{
     void checkDublicateChannel(){
         for (int i = 0; i < channels.size(); i++) {
             for (int j = i + 1; j < channels.size(); j++) {
-                if(channels.get(i).getClass().getSimpleName() == channels.get(j).getClass().getSimpleName()){
+                if(channels.get(i).getClass().getSimpleName().equals(channels.get(j).getClass().getSimpleName())){
                     throw new DuplicateChannelException(this.language.getDuplicateChannelErrorString());
                 }
             }

@@ -4,8 +4,13 @@ import java.math.BigDecimal;
 
 public class English implements Language{
     @Override
-    public String getSentSuccessfullyString() {
-        return "Successfully sent";
+    public String getSmsSentSuccessfullyString() {
+        return "Sms successfully sent";
+    }
+
+    @Override
+    public String getMailSentSuccessfullyString() {
+        return "E-mail successfully sent";
     }
 
     @Override

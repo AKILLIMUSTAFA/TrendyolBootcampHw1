@@ -4,28 +4,36 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CompanyBlackList implements BlackList{
-    private static Map<String, Integer> companyBlacklist = new HashMap<>();
+    private static CompanyBlackList companyBlackListInstance = null;
+    private static Map<String, Integer> companyBlacklist;
     private static final int IGNORE_VALUE = 0;
     private static final int UNPAID_MONTH_LIMIT_TO_ENTER_BLACKLIST = 2;
-    private String currentCompanyName;
 
-    public CompanyBlackList(String currentCompanyName) {
-        this.currentCompanyName = currentCompanyName;
+    private CompanyBlackList() {
+        this.companyBlacklist = new HashMap<>();
+    }
+
+    public static CompanyBlackList getInstance()
+    {
+        if (companyBlackListInstance == null)
+            companyBlackListInstance = new CompanyBlackList();
+
+        return companyBlackListInstance;
     }
 
     @Override
-    public void addToBlackList() {
-        companyBlacklist.put(this.currentCompanyName,IGNORE_VALUE);
+    public void addToBlackList(String elementName) {
+        companyBlacklist.put(elementName,IGNORE_VALUE);
     }
 
     @Override
-    public void removeFromBlackList() {
-        companyBlacklist.remove(this.currentCompanyName);
+    public void removeFromBlackList(String elementName) {
+        companyBlacklist.remove(elementName);
     }
 
     @Override
-    public boolean isTheElementBlacklisted() {
-        return (companyBlacklist.get(this.currentCompanyName) != null);
+    public boolean isTheElementBlacklisted(String elementName) {
+        return (companyBlacklist.get(elementName) != null);
     }
 
     @Override
@@ -33,4 +41,13 @@ public class CompanyBlackList implements BlackList{
         return numberOfMonthsUnpaidByTheCompany >= UNPAID_MONTH_LIMIT_TO_ENTER_BLACKLIST;
     }
 
+    @Override
+    public void clearBlacklist() {
+        companyBlackListInstance = null;
+    }
+
+    @Override
+    public Map<String, Integer> getBlacklist() {
+        return this.companyBlacklist;
+    }
 }
