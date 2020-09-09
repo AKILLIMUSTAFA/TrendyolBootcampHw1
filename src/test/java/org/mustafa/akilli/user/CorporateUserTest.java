@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import static junit.framework.TestCase.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.junit.Assert.assertTrue;
 
 public class CorporateUserTest {
 
@@ -100,7 +101,7 @@ public class CorporateUserTest {
     }
 
     @Test
-    public void it_should_throw_DuplicateChannelException_and_show_when_the_company_chooses_more_than_one_from_the_same_channel(){
+    public void it_should_throw_DuplicateChannelException_when_the_company_chooses_more_than_one_from_the_same_channel(){
 
         // Given
         channels.add(emailDTOFlexibleQuota);
@@ -114,6 +115,20 @@ public class CorporateUserTest {
         assertThat(throwable).isNotNull();
         assertThat(throwable).isInstanceOf(DuplicateChannelException.class);
         assertThat(throwable).hasMessageContaining(language.getDuplicateChannelErrorString());
+    }
+
+    @Test
+    public void it_should_not_throw_DuplicateChannelException_and_show_when_the_company_dont_chooses_more_than_one_from_the_same_channel(){
+
+        // Given
+        channels.add(emailDTOFlexibleQuota);
+        channels.add(smsDTOFixedQuota);
+
+        // When
+        corporateUser = new CorporateUser("ignore@kurumsal.com", "999-99-89", companyName,channels, language);
+
+        // Then
+        assertTrue( true );
     }
 
     @After
