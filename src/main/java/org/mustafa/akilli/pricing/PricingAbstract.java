@@ -1,6 +1,5 @@
 package org.mustafa.akilli.pricing;
 
-import org.mustafa.akilli.exceptions.CompanyOnTheBlacklistException;
 import org.mustafa.akilli.language.Language;
 import org.mustafa.akilli.pricing.blacklist.BlackList;
 import org.mustafa.akilli.pricing.blacklist.CompanyBlackList;

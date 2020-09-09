@@ -6,9 +6,7 @@ import org.junit.Test;
 import org.mustafa.akilli.channels.Channel;
 import org.mustafa.akilli.channels.EmailDTO;
 import org.mustafa.akilli.channels.SmsDTO;
-import org.mustafa.akilli.exceptions.CompanyOnTheBlacklistException;
 import org.mustafa.akilli.exceptions.DuplicateChannelException;
-import org.mustafa.akilli.language.English;
 import org.mustafa.akilli.language.Language;
 import org.mustafa.akilli.language.Turkish;
 import org.mustafa.akilli.pricing.FixedQuota;
@@ -18,7 +16,6 @@ import org.mustafa.akilli.pricing.blacklist.CompanyBlackList;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import static junit.framework.TestCase.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.Assert.assertTrue;
@@ -57,7 +54,6 @@ public class CorporateUserTest {
 
 
     private ArrayList<User> userCollection;
-    private User individualUser;
 
     @Before
     public void setUp(){
@@ -96,8 +92,6 @@ public class CorporateUserTest {
         for (int i = 0; i < 50; i++) {
             userCollection.add(new IndividualUser("ignore@ignore.com","111-11-11", "ignore", "ignore oğlu"));
         }
-
-        individualUser = new IndividualUser("ahmet@gmail.com","111-11-11", "ahmet", "ahmetoğlu");
     }
 
     @Test

@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mustafa.akilli.language.Language;
 import org.mustafa.akilli.language.Turkish;
-import org.mustafa.akilli.pricing.FixedQuota;
 import org.mustafa.akilli.pricing.FlexibleQuota;
 
 import java.math.BigDecimal;

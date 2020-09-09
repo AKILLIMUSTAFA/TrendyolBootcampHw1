@@ -1,6 +1,5 @@
 package org.mustafa.akilli.pricing;
 
-import org.mustafa.akilli.exceptions.CompanyOnTheBlacklistException;
 import org.mustafa.akilli.language.Language;
 
 import java.math.BigDecimal;

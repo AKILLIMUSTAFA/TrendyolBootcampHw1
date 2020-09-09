@@ -1,9 +1,5 @@
 package org.mustafa.akilli.user;
 
-import org.mustafa.akilli.channels.Channel;
-
-import java.util.ArrayList;
-
 public abstract class UserAbstract implements User{
 
     protected String email;
